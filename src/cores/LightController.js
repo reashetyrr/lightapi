@@ -90,5 +90,7 @@ export default class LightController {
         if (!this.lastResponse) {
             throw new ResponseNotSetError();
         }
+
+        return response_json;
     }
 }
