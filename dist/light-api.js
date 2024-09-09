@@ -1,84 +1,5 @@
 /******/ var __webpack_modules__ = ({
 
-/***/ 234:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* unused harmony exports LIGHTTYPES, LightApi */
-/* harmony import */ var _apis_Govee__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(170);
-/* harmony import */ var _utils_Exceptions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(538);
-
-
-
-const LIGHTTYPES = Object.freeze({
-    GOVEE: _apis_Govee__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A,
-    // add more light types here when we implement more
-});
-
-class LightApi {
-    constructor({lightType, apiKey}) {
-        if (!LIGHTTYPES.includes(lightType)) {
-            throw new NotSupportedLightTypeError();
-        }
-
-        if (!apiKey) {
-            throw new MissingApiKeyError();
-        }
-
-        this.api = new LIGHTTYPES[lightType]();
-        this.api.apiKey = apiKey;
-    }
-
-    getLights() {
-        return this.api.getLights();
-    }
-}
-
-/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = ((/* unused pure expression or super */ null && (LightApi)));
-
-/***/ }),
-
-/***/ 170:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   A: () => (/* binding */ Govee)
-/* harmony export */ });
-/* harmony import */ var _cores_LightController__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(711);
-/* harmony import */ var _Govee_GoveeAPIResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(940);
-/* harmony import */ var _Govee_GoveeAPIResponse__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_Govee_GoveeAPIResponse__WEBPACK_IMPORTED_MODULE_1__);
-
-
-
-class Govee extends _cores_LightController__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A {
-    constructor() {
-        super();
-        this.endpointUrl = "https://openapi.api.govee.com";
-        this.baseHeaders = {
-            'Content-Type': 'application/json',
-            'Govee-API-Key': this.apiKey
-        };
-    }
-
-    async parseResponse(response) {
-        const parsedResponse = new (_Govee_GoveeAPIResponse__WEBPACK_IMPORTED_MODULE_1___default())(response);
-        if (!parsedResponse.ok) {
-            throw new Error(`Error: ${parsedResponse.status}`);
-        }
-
-        this.lastResponse = parsedResponse;
-        return parsedResponse.json;
-    }
-    getLights() {
-        return this.lights;
-    }
-
-    addLight(light) {
-        this.lights.push(light);
-    }
-}
-
-/***/ }),
-
 /***/ 940:
 /***/ (() => {
 
@@ -110,164 +31,6 @@ class GoveeAPIResponse {
 
 
 }
-
-/***/ }),
-
-/***/ 711:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   A: () => (/* binding */ LightController)
-/* harmony export */ });
-/* harmony import */ var _utils_Exceptions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(538);
-
-
-class LightController {
-    #apiKey = null;
-    #endpointUrl = null;
-    #baseHeaders = null;
-    #lastResponse = null;
-
-    constructor() {
-        this.lights = [];
-    }
-
-    /**
-     * Basic getters & setters
-     */
-    get apiKey() {
-        return this.#apiKey;
-    }
-
-    set apiKey(value) {
-        this.#apiKey = value;
-    }
-
-    get endpointUrl() {
-        return new URL(this.#endpointUrl);
-    }
-
-    set endpointUrl(value) {
-        if (value instanceof URL) {
-            value = value.toString();
-        }
-
-        this.#endpointUrl = value;
-    }
-
-    get baseHeaders() {
-        return this.#baseHeaders;
-    }
-
-    set baseHeaders(value) {
-        this.#baseHeaders = value;
-    }
-
-    get lastResponse() {
-        return this.#lastResponse;
-    }
-
-    set lastResponse(value) {
-        this.#lastResponse = value;
-    }
-
-    /**
-     * abstract methods, throws error if not implemented
-     */
-    getLights() {
-        throw new _utils_Exceptions__WEBPACK_IMPORTED_MODULE_0__/* .NotImplementedError */ .EH();
-    }
-
-    addLight(light) {
-        throw new _utils_Exceptions__WEBPACK_IMPORTED_MODULE_0__/* .NotImplementedError */ .EH();
-    }
-
-    turnOnAll() {
-        throw new _utils_Exceptions__WEBPACK_IMPORTED_MODULE_0__/* .NotImplementedError */ .EH();
-    }
-
-    turnOffAll() {
-        throw new _utils_Exceptions__WEBPACK_IMPORTED_MODULE_0__/* .NotImplementedError */ .EH();
-    }
-
-    async parseResponse(response) {
-        throw new _utils_Exceptions__WEBPACK_IMPORTED_MODULE_0__/* .NotImplementedError */ .EH();
-    }
-
-    async execute_fetch({path, options= {}} = {}) {
-        if (!path) {
-            throw new _utils_Exceptions__WEBPACK_IMPORTED_MODULE_0__/* .MissingPathError */ ._D();
-        }
-
-        const url = new URL(this.endpointUrl, path);
-        const headers = options.headers ? {...this.baseHeaders, ...options.headers} : this.baseHeaders;
-
-        const response = await fetch(url, {
-            ...options,
-            headers
-        });
-
-        const response_json = await this.parseResponse(response);
-
-        if (!this.lastResponse) {
-            throw new _utils_Exceptions__WEBPACK_IMPORTED_MODULE_0__/* .ResponseNotSetError */ .hW();
-        }
-
-        return response_json;
-    }
-}
-
-
-/***/ }),
-
-/***/ 538:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   EH: () => (/* binding */ NotImplementedError),
-/* harmony export */   _D: () => (/* binding */ MissingPathError),
-/* harmony export */   hW: () => (/* binding */ ResponseNotSetError)
-/* harmony export */ });
-/* unused harmony exports NotSupportedLightTypeError, MissingApiKeyError */
-class NotImplementedError extends Error {
-    constructor() {
-        super("Not implemented");
-    }
-}
-
-class NotSupportedLightTypeError extends Error {
-    constructor() {
-        super("Not supported light type");
-    }
-}
-
-class MissingApiKeyError extends Error {
-    constructor() {
-        super("Missing API key");
-    }
-}
-
-class MissingPathError extends Error {
-    constructor() {
-        super("Missing api path");
-    }
-}
-
-class ResponseNotSetError extends Error {
-    constructor() {
-        super("Response not set in lastResponse property");
-    }
-}
-
-/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = ({
-    NotImplementedError,
-    NotSupportedLightTypeError,
-    MissingApiKeyError,
-    MissingPathError,
-    ResponseNotSetError
-});
-
-
 
 /***/ })
 
@@ -328,13 +91,222 @@ class ResponseNotSetError extends Error {
 /******/ })();
 /******/ 
 /************************************************************************/
-/******/ 
-/******/ // startup
-/******/ // Load entry module and return exports
-/******/ __webpack_require__(234);
-/******/ // This entry module is referenced by other modules so it can't be inlined
-/******/ __webpack_require__(538);
-/******/ __webpack_require__(711);
-/******/ __webpack_require__(170);
-/******/ var __webpack_exports__ = __webpack_require__(940);
-/******/ 
+var __webpack_exports__ = {};
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  a_: () => (/* binding */ LIGHTTYPES),
+  fF: () => (/* binding */ LightApi),
+  Ay: () => (/* binding */ LightAPI)
+});
+
+;// CONCATENATED MODULE: ./src/utils/Exceptions.js
+class NotImplementedError extends Error {
+    constructor() {
+        super("Not implemented");
+    }
+}
+
+class NotSupportedLightTypeError extends Error {
+    constructor() {
+        super("Not supported light type");
+    }
+}
+
+class MissingApiKeyError extends Error {
+    constructor() {
+        super("Missing API key");
+    }
+}
+
+class MissingPathError extends Error {
+    constructor() {
+        super("Missing api path");
+    }
+}
+
+class ResponseNotSetError extends Error {
+    constructor() {
+        super("Response not set in lastResponse property");
+    }
+}
+
+/* harmony default export */ const Exceptions = ({
+    NotImplementedError,
+    NotSupportedLightTypeError,
+    MissingApiKeyError,
+    MissingPathError,
+    ResponseNotSetError
+});
+
+
+;// CONCATENATED MODULE: ./src/cores/LightController.js
+
+
+class LightController {
+    #apiKey = null;
+    #endpointUrl = null;
+    #baseHeaders = null;
+    #lastResponse = null;
+
+    constructor() {
+        this.lights = [];
+    }
+
+    /**
+     * Basic getters & setters
+     */
+    get apiKey() {
+        return this.#apiKey;
+    }
+
+    set apiKey(value) {
+        this.#apiKey = value;
+    }
+
+    get endpointUrl() {
+        return new URL(this.#endpointUrl);
+    }
+
+    set endpointUrl(value) {
+        if (value instanceof URL) {
+            value = value.toString();
+        }
+
+        this.#endpointUrl = value;
+    }
+
+    get baseHeaders() {
+        return this.#baseHeaders;
+    }
+
+    set baseHeaders(value) {
+        this.#baseHeaders = value;
+    }
+
+    get lastResponse() {
+        return this.#lastResponse;
+    }
+
+    set lastResponse(value) {
+        this.#lastResponse = value;
+    }
+
+    /**
+     * abstract methods, throws error if not implemented
+     */
+    getLights() {
+        throw new NotImplementedError();
+    }
+
+    addLight(light) {
+        throw new NotImplementedError();
+    }
+
+    turnOnAll() {
+        throw new NotImplementedError();
+    }
+
+    turnOffAll() {
+        throw new NotImplementedError();
+    }
+
+    async parseResponse(response) {
+        throw new NotImplementedError();
+    }
+
+    async execute_fetch({path, options= {}} = {}) {
+        if (!path) {
+            throw new MissingPathError();
+        }
+
+        const url = new URL(this.endpointUrl, path);
+        const headers = options.headers ? {...this.baseHeaders, ...options.headers} : this.baseHeaders;
+
+        const response = await fetch(url, {
+            ...options,
+            headers
+        });
+
+        const response_json = await this.parseResponse(response);
+
+        if (!this.lastResponse) {
+            throw new ResponseNotSetError();
+        }
+
+        return response_json;
+    }
+}
+
+// EXTERNAL MODULE: ./src/apis/Govee/GoveeAPIResponse.js
+var GoveeAPIResponse = __webpack_require__(940);
+var GoveeAPIResponse_default = /*#__PURE__*/__webpack_require__.n(GoveeAPIResponse);
+;// CONCATENATED MODULE: ./src/apis/Govee.js
+
+
+
+class Govee extends LightController {
+    constructor() {
+        super();
+        this.endpointUrl = "https://openapi.api.govee.com";
+        this.baseHeaders = {
+            'Content-Type': 'application/json',
+            'Govee-API-Key': this.apiKey
+        };
+    }
+
+    async parseResponse(response) {
+        const parsedResponse = new (GoveeAPIResponse_default())(response);
+        if (!parsedResponse.ok) {
+            throw new Error(`Error: ${parsedResponse.status}`);
+        }
+
+        this.lastResponse = parsedResponse;
+        return parsedResponse.json;
+    }
+    getLights() {
+        return this.lights;
+    }
+
+    addLight(light) {
+        this.lights.push(light);
+    }
+}
+;// CONCATENATED MODULE: ./src/LightAPI.js
+
+
+
+const LIGHTTYPESREFERENCES = Object.freeze({
+    GOVEE: Govee,
+    // add more light types here when we implement more
+});
+
+const LIGHTTYPES = Object.freeze({
+    GOVEE: "GOVEE"
+});
+
+class LightApi {
+    constructor({lightType, apiKey}) {
+        // check if lightType is
+        if (!LIGHTTYPESREFERENCES[lightType]) {
+            throw new NotSupportedLightTypeError();
+        }
+
+        if (!apiKey) {
+            throw new MissingApiKeyError();
+        }
+
+        this.api = new LIGHTTYPESREFERENCES[lightType]();
+        this.api.apiKey = apiKey;
+    }
+
+    getLights() {
+        return this.api.getLights();
+    }
+}
+
+/* harmony default export */ const LightAPI = ({LightApi, LIGHTTYPES});
+var __webpack_exports__LIGHTTYPES = __webpack_exports__.a_;
+var __webpack_exports__LightApi = __webpack_exports__.fF;
+var __webpack_exports__default = __webpack_exports__.Ay;
+export { __webpack_exports__LIGHTTYPES as LIGHTTYPES, __webpack_exports__LightApi as LightApi, __webpack_exports__default as default };

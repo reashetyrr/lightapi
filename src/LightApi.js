@@ -1,14 +1,19 @@
 import Govee from "./apis/Govee";
 import {MissingApiKeyError, NotSupportedLightTypeError} from "@utils/Exceptions";
 
-export const LIGHTTYPES = Object.freeze({
+const LIGHTTYPESREFERENCES = Object.freeze({
     GOVEE: Govee,
     // add more light types here when we implement more
 });
 
+export const LIGHTTYPES = Object.freeze({
+    GOVEE: "GOVEE"
+});
+
 export class LightApi {
     constructor({lightType, apiKey}) {
-        if (!LIGHTTYPES.includes(lightType)) {
+        // check if lightType is
+        if (!LIGHTTYPESREFERENCES[lightType]) {
             throw new NotSupportedLightTypeError();
         }
 
@@ -16,7 +21,7 @@ export class LightApi {
             throw new MissingApiKeyError();
         }
 
-        this.api = new LIGHTTYPES[lightType]();
+        this.api = new LIGHTTYPESREFERENCES[lightType]();
         this.api.apiKey = apiKey;
     }
 
@@ -25,4 +30,4 @@ export class LightApi {
     }
 }
 
-export default LightApi;
+export default {LightApi, LIGHTTYPES};

@@ -4,7 +4,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const glob = require('glob');
 
 module.exports = {
-    entry: glob.sync('./src/**/*.js').map(file => `./${file}`),
+    entry: './src/LightAPI.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'light-api.js',
