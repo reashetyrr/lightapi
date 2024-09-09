@@ -4,7 +4,7 @@
   "description": "control several different lighting systems with one interface",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -16,10 +16,13 @@
     "url": "https://github.com/reashetyrr/lightapi/issues"
   },
   "homepage": "https://github.com/reashetyrr/lightapi#readme",
-  "dependencies": {
-    "webpack": "^5.94.0"
-  },
   "devDependencies": {
+    "@eslint/js": "^9.10.0",
+    "eslint": "^9.10.0",
+    "eslint-webpack-plugin": "^4.2.0",
+    "glob": "^11.0.0",
+    "globals": "^15.9.0",
+    "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4"
   }
 }

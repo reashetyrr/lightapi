@@ -1,5 +1,5 @@
-import {Govee} from "./apis/Govee";
-import {MissingApiKeyError, NotSupportedLightTypeError} from "./utils/Exceptions";
+import Govee from "./apis/Govee";
+import {MissingApiKeyError, NotSupportedLightTypeError} from "@utils/Exceptions";
 
 export const LIGHTTYPES = Object.freeze({
     GOVEE: Govee,

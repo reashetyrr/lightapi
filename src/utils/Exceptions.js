@@ -30,6 +30,9 @@ export class ResponseNotSetError extends Error {
 
 export default {
     NotImplementedError,
-    NotSupportedLightTypeError
+    NotSupportedLightTypeError,
+    MissingApiKeyError,
+    MissingPathError,
+    ResponseNotSetError
 };
 

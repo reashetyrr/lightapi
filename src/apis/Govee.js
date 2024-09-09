@@ -8,7 +8,7 @@ export default class Govee extends LightController {
         this.baseHeaders = {
             'Content-Type': 'application/json',
             'Govee-API-Key': this.apiKey
-        }
+        };
     }
 
     async parseResponse(response) {

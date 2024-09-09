@@ -1,4 +1,4 @@
-import {MissingPathError, NotImplementedError, ResponseNotSetError} from "../utils/Exceptions";
+import {MissingPathError, NotImplementedError, ResponseNotSetError} from "@utils/Exceptions";
 
 export default class LightController {
     #apiKey = null;

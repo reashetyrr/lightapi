@@ -19,7 +19,7 @@ class GoveeAPIResponse {
         return this.response.ok;
     }
 
-    async get json() {
+    async json() {
         return this.response.json();
     }
 
