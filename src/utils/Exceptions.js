@@ -16,6 +16,18 @@ export class MissingApiKeyError extends Error {
     }
 }
 
+export class MissingPathError extends Error {
+    constructor() {
+        super("Missing api path");
+    }
+}
+
+export class ResponseNotSetError extends Error {
+    constructor() {
+        super("Response not set in lastResponse property");
+    }
+}
+
 export default {
     NotImplementedError,
     NotSupportedLightTypeError
