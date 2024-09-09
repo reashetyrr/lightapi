@@ -1,4 +1,4 @@
-import {NotImplementedError} from "../Exceptions";
+import {NotImplementedError} from "../utils/Exceptions";
 
 export default class LightController {
     #apiKey = null;
